@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Listado de Confirmaciones - Nicol</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <section id="listadoSection">
+    <div id="listadoTimerBox" class="figura-irregular">
+      <div class="timer-cenicienta">
+        <span class="timer-icon">🕰️</span>
+        <h3>Faltan <span id="listadoTimer"></span> para la fiesta</h3>
+      </div>
+    </div>
+    <h2>Listado de confirmaciones</h2>
+    <div id="resumenConfirmaciones">
+      <p><strong>Total que confirman:</strong> <span id="totalSi">0</span></p>
+      <p><strong>Total que no van:</strong> <span id="totalNo">0</span></p>
+    </div>
+    <table id="tablaConfirmaciones">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Asistentes</th>
+          <th>¿Confirma?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Aquí se llenarán los datos dinámicamente -->
+      </tbody>
+    </table>
+    <a href="index.html" class="volver-link">Volver a la invitación</a>
+  </section>
+  <script src="listado.js"></script>
+</body>
+</html>
