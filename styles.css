@@ -1,8 +1,182 @@
+/* Aumentar tamaño base de fuente para todo el documento */
+html {
+  font-size: 120%; /* Aumenta el tamaño base en 20% */
+}
+
+body {
+  font-size: 1.1rem; /* Tamaño adicional para el body */
+}
+
+/* Video de fondo */
+.video-fondo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  opacity: 0.6;
+  background: linear-gradient(135deg, #b3d8ff 0%, #e6f0ff 100%);
+}
+
+/* Ajustes para orientación horizontal/pantallas más anchas */
+@media (orientation: landscape) and (min-aspect-ratio: 16/9) {
+  .video-fondo {
+    object-fit: contain;
+    object-position: center;
+    background: linear-gradient(135deg, #b3d8ff 0%, #e6f0ff 100%);
+  }
+}
+
+/* Ajustes para dispositivos móviles en horizontal */
+@media (orientation: landscape) and (max-height: 500px) {
+  .video-fondo {
+    object-fit: contain;
+    width: auto;
+    height: 100vh;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #b3d8ff 0%, #e6f0ff 100%);
+  }
+}
+
+/* Para pantallas muy anchas */
+@media (min-aspect-ratio: 2/1) {
+  .video-fondo {
+    object-fit: contain;
+    background: linear-gradient(135deg, #b3d8ff 0%, #e6f0ff 100%);
+  }
+}
+
+/* Aumentar tamaños de títulos y elementos principales */
+h1 {
+  font-size: 2.2rem !important;
+}
+
+h2 {
+  font-size: 1.8rem !important;
+}
+
+h3 {
+  font-size: 1.5rem !important;
+}
+
+p {
+  font-size: 1.1rem !important;
+}
+
+button {
+  font-size: 1.1rem !important;
+}
+
+input {
+  font-size: 1.1rem !important;
+}
+
+label {
+  font-size: 1.1rem !important;
+}
+
+.map-btn, #btnMapa {
+  color: #111 !important;
+}
+button,
+.rsvp-form button,
+.map-btn,
+#btnMapa,
+.album-fotos-btn,
+#btnAlbumFotos {
+  color: #111 !important;
+}
+.rsvp-form button,
+.map-btn,
+#btnMapa,
+.album-fotos-btn,
+#btnAlbumFotos {
+  color: #111 !important;
+}
+/* Forzar color negro en todos los textos, botones y enlaces */
+body, h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button, .seccion-box, .album-fotos-btn, .rsvp-form button, .map-btn, #btnMapa, .listado-link, #btnAlbumFotos, .confirmacion-opcion label {
+  color: #111 !important;
+}
+.timer-cenicienta h3, #timerBox, #timerBox h3, #timerBox span, #timerSection h3 {
+  color: #111 !important;
+}
+.rsvp-form button,
+.map-btn,
+#btnMapa,
+.album-fotos-btn,
+#btnAlbumFotos {
+  color: #111 !important;
+}
+/* Forzar fuente Parisienne y color negro en todos los textos */
+body, h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button, .seccion-box, .album-fotos-btn, .rsvp-form button, .map-btn, #btnMapa, .listado-link, #btnAlbumFotos {
+  font-family: 'Parisienne', cursive !important;
+  color: #111 !important;
+  font-weight: 400;
+  font-style: normal;
+}
+/* Secciones independientes */
+#infoFiestaSection, #lluviaSobresSection, #timerSection, #fraseSection, #confirmarSection, #albumFotosSection {
+  width: 100vw;
+  max-width: 420px;
+  margin: 2rem auto 0 auto;
+  padding: 1.5rem 1rem;
+  background: linear-gradient(135deg, #e6f0ff 60%, #b3d8ff 100%);
+  border-radius: 24px;
+  border: 2px solid #87ceeb;
+  box-shadow: 0 0 32px #6fa3ef88;
+  text-align: center;
+  color: #d4af37;
+  font-family: 'Cinzel', 'Segoe UI', serif;
+}
+.album-fotos-box h2 {
+  font-size: 1.3rem;
+  color: #a259e6;
+  margin-bottom: 0.7rem;
+}
+.album-fotos-box p {
+  font-size: 1rem;
+  margin-bottom: 1.2rem;
+}
+.album-fotos-btn {
+  background: #fff !important;
+  color: #111 !important;
+  border: 2px solid #1e3a8a;
+  border-radius: 12px;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: none !important;
+  transition: background 0.3s, color 0.3s, border 0.3s;
+  opacity: 1;
+  font-family: 'Parisienne', cursive;
+}
+.album-fotos-btn:enabled {
+  cursor: pointer;
+  opacity: 1;
+}
+.album-fotos-btn:enabled:hover {
+  background: #e6f0ff !important;
+  color: #111 !important;
+  border-color: #1e3a8a;
+}
+
+.rsvp-form button,
+.map-btn,
+#btnMapa,
+.listado-link,
+#btnAlbumFotos {
+  color: #111 !important;
+}
+/* Estilos de álbum de fotos eliminados */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-/* Fin del archivo, sin llave extra */
+}
 
 body {
   margin: 0;
@@ -46,7 +220,7 @@ body {
   border-radius: 32px;
   box-shadow: 0 0 48px #6fa3ef, 0 0 0 8px #e6f0ff;
   width: 100vw;
-  max-width: 420px;
+  max-width: 320px;
   max-height: 80vh;
   aspect-ratio: 9/16;
   object-fit: cover;
@@ -233,7 +407,7 @@ body {
   padding: 1.2rem 2rem;
   color: #2356a8;
   text-align: center;
-  font-size: 1.3rem;
+  font-size: 1.0rem;
   font-weight: bold;
 }
 
@@ -291,29 +465,30 @@ body {
 }
 
 .rsvp-form button {
-  background: linear-gradient(90deg, #c084fc, #a259e6);
-  color: #fff;
-  border: none;
+  background: #fff !important;
+  color: #111 !important;
+  border: 2px solid #1e3a8a;
   border-radius: 8px;
   padding: 0.7rem;
   font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 0 8px #c084fc88;
+  box-shadow: none !important;
   transition: background 0.3s;
 }
 
 .rsvp-form button:hover {
-  background: linear-gradient(90deg, #a259e6, #c084fc);
+  background: #e6f0ff !important;
 }
 
 #listadoSection {
   max-width: 420px;
   min-width: 260px;
-  min-height: 700px;
+  min-height: 500px;
   margin: 2rem auto;
   background: linear-gradient(135deg, #e6f0ff 60%, #b3d8ff 100%);
   border-radius: 24px;
+  border: 2px solid #87ceeb;
   box-shadow: 0 0 32px #6fa3ef88;
   padding: 2rem 1rem;
   color: #2356a8;
@@ -330,6 +505,7 @@ body {
   font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 2rem;
+  font-family: 'Parisienne', cursive !important;
 }
 
 #tablaConfirmaciones {
@@ -340,16 +516,21 @@ body {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 0 16px #6fa3ef44;
+  font-family: 'Parisienne', cursive !important;
 }
 #tablaConfirmaciones th, #tablaConfirmaciones td {
   padding: 0.7rem 0.4rem;
   border-bottom: 1px solid #b3d8ff;
   text-align: center;
+  font-size: 0.9rem;
+  font-family: 'Parisienne', cursive !important;
 }
 #tablaConfirmaciones th {
   background: #6fa3ef;
   color: #fff;
   font-weight: bold;
+  font-size: 0.95rem;
+  font-family: 'Parisienne', cursive !important;
 }
 #tablaConfirmaciones tr:last-child td {
   border-bottom: none;
@@ -396,6 +577,7 @@ body {
 .mapa-modal-content {
   background: #fff;
   border-radius: 16px;
+  border: 2px solid #87ceeb;
   padding: 0.5rem;
   max-width: 90vw;
   max-height: 80vh;
@@ -416,20 +598,34 @@ body {
   z-index: 10;
 }
 .map-btn {
-  background: linear-gradient(90deg, #c084fc, #a259e6);
-  color: #fff;
-  border: none;
+  background: #fff !important;
+  color: #111 !important;
+  border: 2px solid #1e3a8a;
   border-radius: 8px;
   padding: 0.3rem 1rem;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
   margin-left: 8px;
-  box-shadow: 0 0 8px #c084fc88;
+  box-shadow: none !important;
   transition: background 0.3s;
 }
-.map-btn:hover {
-  background: linear-gradient(90deg, #a259e6, #c084fc);
+.map-btn, .album-fotos-btn {
+  font-family: 'Parisienne', cursive !important;
+  color: #111 !important;
+  background: #fff !important;
+  border: 2px solid #1e3a8a !important;
+  border-radius: 8px !important;
+  padding: 8px 18px !important;
+  font-size: 1.1em !important;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.map-btn *, .album-fotos-btn * {
+  color: #111 !important;
+  background: transparent !important;
 }
 
 /* Responsive para móvil */
@@ -479,8 +675,8 @@ body {
     border-radius: 12px;
   }
   #mainVideo {
-    width: 96vw;
-    max-width: 96vw;
+    width: 90vw;
+    max-width: 90vw;
     height: 60vh;
     min-height: 220px;
     border-radius: 12px;
@@ -517,9 +713,11 @@ body {
 }
 .confirmacion-opcion {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   justify-content: center;
+  align-items: center;
   margin: 1.2rem 0 1.2rem 0;
+  flex-wrap: nowrap;
 }
 .confirmacion-opcion label {
   font-size: 1.1rem;
@@ -527,19 +725,25 @@ body {
   font-weight: bold;
   background: #e6f0ff;
   border-radius: 12px;
-  padding: 0.5rem 1.2rem;
+  padding: 0.6rem 1.2rem;
   box-shadow: 0 0 8px #6fa3ef44;
   cursor: pointer;
   transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  min-width: auto;
 }
 .confirmacion-opcion input[type="radio"] {
   margin-right: 0.5rem;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 .confirmacion-opcion label:hover {
   background: #b3d8ff;
 }
 .timer-cenicienta h3 {
-  font-size: 1.1em;
+  font-size: 0.9em;
   font-weight: bold;
   margin: 0;
   letter-spacing: 1px;
@@ -565,51 +769,232 @@ body {
   margin: 0.3rem 0;
 }
 
-/* Modal de confirmación superpuesto */
+
+
+/* Regla final para asegurar que todos los botones tengan color negro y negrilla */
+button, 
+.rsvp-form button,
+.map-btn,
+#btnMapa,
+.album-fotos-btn,
+#btnAlbumFotos,
+.listado-link,
+input[type="submit"],
+input[type="button"] {
+  color: #111 !important;
+  font-weight: bold !important;
+}
+
+/* Estilos mejorados para el modal de confirmación */
 .modal-superpuesto {
   position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  background: rgba(36, 56, 120, 0.18);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
   display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-superpuesto.visible {
+  opacity: 1;
+}
+
+.modal-contenido {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+  border-radius: 20px;
+  padding: 40px 30px;
+  text-align: center;
+  max-width: 400px;
+  margin: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transform: scale(0.7) translateY(50px);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-superpuesto.visible .modal-contenido {
+  transform: scale(1) translateY(0);
+}
+
+.modal-contenido::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+  background-size: 300% 300%;
+  animation: gradientShift 3s ease infinite;
+  border-radius: 22px;
+  z-index: -1;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.modal-contenido.error {
+  background: linear-gradient(135deg, #ef4444, #dc2626, #b91c1c);
+}
+
+.modal-contenido.error::before {
+  background: linear-gradient(45deg, #fca5a5, #f87171, #ef4444, #dc2626);
+}
+
+#modalMensaje {
+  color: white;
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  font-weight: 600;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  line-height: 1.5;
+  display: block;
+}
+
+/* Animación de partículas para el modal */
+.modal-contenido::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.3) 2px, transparent 2px),
+    radial-gradient(circle at 60% 80%, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+    radial-gradient(circle at 80% 40%, rgba(255, 255, 255, 0.4) 1.5px, transparent 1.5px);
+  background-size: 50px 50px, 30px 30px, 40px 40px;
+  animation: sparkle 4s linear infinite;
+  pointer-events: none;
+}
+
+/* Botón de play para el video */
+.play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
-  transition: background 0.3s;
-}
-.modal-superpuesto.visible {
-  background: rgba(36, 56, 120, 0.32);
-}
-.modal-contenido {
-  background: linear-gradient(135deg, #e6f0ff 60%, #b3d8ff 100%);
-  border-radius: 32px;
-  box-shadow: 0 0 32px #6fa3ef88, 0 0 0 8px #e6f0ff;
-  padding: 2.2rem 2.5rem 2rem 2.5rem;
-  color: #2356a8;
-  text-align: center;
-  font-size: 1.3rem;
-  font-family: 'Cinzel', 'Segoe UI', serif;
-  font-weight: bold;
-  max-width: 90vw;
-  min-width: 220px;
-  animation: floatirregular 1.2s cubic-bezier(.77,0,.18,1);
   cursor: pointer;
-  transition: box-shadow 0.3s, background 0.3s;
+  transition: all 0.3s ease;
+  z-index: 10;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+  border: 3px solid rgba(255, 255, 255, 0.5);
 }
-.modal-contenido.error {
-  color: #a259e6;
-  background: linear-gradient(135deg, #ffe6f0 60%, #b3d8ff 100%);
-  box-shadow: 0 0 32px #c084fc88, 0 0 0 8px #ffe6f0;
+
+.play-button:hover {
+  background: rgba(0, 0, 0, 0.6);
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
 }
-.modal-contenido span {
-  font-size: 1.2em;
-  display: block;
-  margin: 0.5em 0;
+
+.play-icon {
+  font-size: 40px;
+  color: white;
+  margin-bottom: -5px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
-@media (max-width: 600px) {
-  .modal-contenido {
-    padding: 1.2rem 0.7rem 1rem 0.7rem;
-    font-size: 1.05rem;
-    min-width: 120px;
-  }
+
+.play-button p {
+  color: white !important;
+  font-size: 12px;
+  margin: 0;
+  text-align: center;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
+
+.play-button.oculto {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.8);
+}
+
+#intro {
+  position: relative;
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.8; transform: translateY(0px); }
+  50% { opacity: 0.4; transform: translateY(-2px); }
+}
+
+/* Sección de frase especial */
+.frase-contenido {
+  max-width: 350px;
+  margin: 0 auto;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.frase-principal {
+  font-size: 18px;
+  font-style: italic;
+  margin-bottom: 1rem;
+  color: #111 !important;
+  text-align: center;
+}
+
+.frase-sueno {
+  font-size: 20px;
+  margin-bottom: 0.5rem;
+  color: #111 !important;
+  font-weight: bold;
+  text-align: center;
+}
+
+.frase-fiesta {
+  font-size: 32px !important;
+  color: #111 !important;
+  margin: 1rem 0;
+  font-weight: bold !important;
+  text-align: center;
+}
+
+.frase-invitacion {
+  font-size: 18px;
+  color: #111 !important;
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Sección de lluvia de sobres */
+.sobre-contenido {
+  text-align: center;
+}
+
+.sobre-imagen {
+  max-width: 200px;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin: 1rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.sobre-contenido p {
+  font-size: 18px;
+  color: #111 !important;
+  margin-top: 1rem;
+  line-height: 1.5;
 }

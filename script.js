@@ -1,3 +1,33 @@
+// Mostrar la sección principal solo después del video
+window.addEventListener('DOMContentLoaded', function() {
+  // Inicializar temporizador
+  iniciarTemporizador();
+  
+  // Configurar event listener para el botón del álbum
+  const btnAlbumFotos = document.getElementById('btnAlbumFotos');
+  if (btnAlbumFotos) {
+    btnAlbumFotos.addEventListener('click', function() {
+      window.open('https://photos.app.goo.gl/24Mxk3AU9jweS6uC7', '_blank');
+    });
+  }
+  
+  // Agregar event listener adicional al video para asegurar que se oculte
+  const video = document.getElementById('mainVideo');
+  if (video) {
+    video.addEventListener('ended', function() {
+      // Asegurar que el video y su contenedor se oculten
+      const intro = document.getElementById('intro');
+      if (intro) {
+        intro.style.display = 'none';
+      }
+      video.style.display = 'none';
+      
+      // Evitar que el video se reinicie
+      video.removeAttribute('autoplay');
+      video.currentTime = video.duration;
+    });
+  }
+});
 function startPresentation() {
   const intro = document.getElementById("intro");
   const content = document.getElementById("content");
@@ -68,9 +98,56 @@ function startPresentation() {
 }
 
 function showInfo() {
-  document.getElementById('intro').style.display = 'none';
-  document.getElementById('infoSection').style.display = 'block';
+  // Ocultar la sección del video
+  const intro = document.getElementById('intro');
+  if (intro) {
+    intro.style.display = 'none';
+  }
+  
+  // Mostrar el video de fondo
+  const backgroundVideo = document.getElementById('backgroundVideo');
+  if (backgroundVideo) {
+    backgroundVideo.style.display = 'block';
+    backgroundVideo.play().catch(() => {
+      console.log('No se pudo reproducir el video de fondo automáticamente');
+    });
+  }
+  
+  // Mostrar todas las secciones cuando termine el video
+  const infoFiesta = document.getElementById('infoFiestaSection');
+  const lluviaSobres = document.getElementById('lluviaSobresSection');
+  const timerSection = document.getElementById('timerSection');
+  const fraseSection = document.getElementById('fraseSection');
+  const confirmarSection = document.getElementById('confirmarSection');
+  const albumFotos = document.getElementById('albumFotosSection');
+  
+  if (infoFiesta && lluviaSobres && timerSection && fraseSection && confirmarSection && albumFotos) {
+    // Mostrar todas las secciones inmediatamente sin transición
+    [infoFiesta, lluviaSobres, timerSection, fraseSection, confirmarSection, albumFotos].forEach(sec => {
+      sec.style.display = 'block';
+      sec.style.opacity = '1';
+      sec.style.transition = 'none'; // Sin transición
+    });
+  }
+  
+  // Inicializar temporizador
   iniciarTemporizador();
+  
+  // Inicializar música de fondo
+  const music = document.getElementById("backgroundMusic");
+  if (music) {
+    music.volume = 0.3;
+    music.play().catch(() => {
+      // Si no se puede reproducir automáticamente, esperar a la interacción del usuario
+      const playOnClick = () => {
+        music.play().catch(() => {});
+        document.removeEventListener('click', playOnClick);
+        document.removeEventListener('touchstart', playOnClick);
+      };
+      document.addEventListener('click', playOnClick);
+      document.addEventListener('touchstart', playOnClick);
+    });
+  }
 }
 
 function iniciarTemporizador() {
@@ -90,7 +167,7 @@ function iniciarTemporizador() {
     const minutos = Math.floor(diff / (1000 * 60));
     diff -= minutos * (1000 * 60);
     const segundos = Math.floor(diff / 1000);
-    timerSpan.textContent = `${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
+    timerSpan.textContent = `${dias} días. ${String(horas).padStart(2, '0')}:${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
   }
   updateTimer();
   setInterval(updateTimer, 1000);

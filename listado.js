@@ -2,28 +2,6 @@
 // Reemplaza la simulación por fetch real al backend
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Temporizador
-  const listadoSection = document.getElementById('listadoSection');
-  function updateTimer() {
-    const ahora = new Date();
-    const evento = new Date(2025, 8, 26, 18, 0, 0); // 26 septiembre 2025 18:00
-    let diff = evento - ahora;
-    if (diff < 0) {
-      document.getElementById('listadoTimer').textContent = '¡Ya comenzó la fiesta!';
-      return;
-    }
-    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-    diff -= dias * (1000 * 60 * 60 * 24);
-    const horas = Math.floor(diff / (1000 * 60 * 60));
-    diff -= horas * (1000 * 60 * 60);
-    const minutos = Math.floor(diff / (1000 * 60));
-    diff -= minutos * (1000 * 60);
-    const segundos = Math.floor(diff / 1000);
-    document.getElementById('listadoTimer').textContent = `${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
-  }
-  updateTimer();
-  setInterval(updateTimer, 1000);
-
   // Listado de confirmaciones
   let url = '/api/confirmaciones';
   if (window.location.protocol === 'file:') {

@@ -5,62 +5,103 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Invitación 15 Años - Nicol</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
 </head>
 <body>
+  <audio id="backgroundMusic" src="assets/song.mp3" autoplay loop></audio>
+  
+  <!-- Video de fondo -->
+  <video id="backgroundVideo" class="video-fondo" autoplay muted loop style="display:none;">
+    <source src="assets/fondo.mp4" type="video/mp4" />
+  </video>
+  
   <!-- Video principal -->
   <section id="intro">
-    <video id="mainVideo" autoplay muted playsinline onended="showInfo()">
-      <source src="assets/video.mp4" type="video/mp4" />
+    <video id="mainVideo" playsinline onended="showInfo()" preload="auto">
+      <source src="assets/intro.mp4" type="video/mp4" />
       Tu navegador no soporta videos HTML5.
     </video>
-  </section>
-
-  <!-- Información principal, oculta al inicio -->
-  <section id="infoSection" style="display:none">
-    <div id="finalScreen">
-      <h2>✨ Celebramos los 15 años de Nicol ✨</h2>
-      <p><strong>Fecha:</strong> 26 de septiembre</p>
-      <p><strong>Hora:</strong> 6:00 pm</p>
-      <p><strong>Lugar:</strong> San Jerónimo <button id="btnMapa" type="button" class="map-btn">Ubicación</button></p>
-      <div id="mapaModal" class="mapa-modal" style="display:none;">
-        <div class="mapa-modal-content">
-          <span id="cerrarMapa" class="cerrar-mapa">&times;</span>
-          <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3964.4945396334006!2d-75.72784042500759!3d6.458851793532691!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMjcnMzEuOSJOIDc1wrA0MyczMS4wIlc!5e0!3m2!1sen!2sco!4v1751324760512!5m2!1sen!2sco" width="100%" height="350" style="border:0; border-radius:12px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-      </div>
-      <p><strong>Vestimenta:</strong> Elegantes</p>
-      <p><strong>Lluvia de sobres</strong></p>
-      <!-- Temporizador decorativo -->
-      <div id="timerBox" class="figura-irregular">
-        <div class="timer-cenicienta">
-          <span class="timer-icon">🕰️</span>
-          <h3><span id="timer"></span> restantes</h3>
-        </div>
-      </div>
-      <!-- Formulario RSVP -->
-      <form id="formRSVP" class="rsvp-form">
-        <h3>Confirma tu asistencia</h3>
-        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
-        <input type="number" id="asistentes" name="asistentes" min="1" max="10" placeholder="N° de asistentes" required />
-        <div class="confirmacion-opcion">
-          <label><input type="radio" name="confirmado" value="true" required /> Asistiré</label>
-          <label><input type="radio" name="confirmado" value="false" required /> No asistiré</label>
-        </div>
-        <button type="submit">Enviar</button>
-      </form>
-      <a href="listado.html" class="listado-link">Ver listado de confirmaciones</a>
+    <div id="playButton" class="play-button">
+      <div class="play-icon">▶</div>
+      <p>Toca para comenzar</p>
     </div>
   </section>
 
+  <!-- Secciones independientes, ocultas al inicio -->
+  <section id="infoFiestaSection" class="seccion-box" style="display:none">
+    <h2>✨ Celebramos los 15 años de Nicol ✨</h2>
+    <p><strong>Fecha:</strong> 26 de septiembre</p>
+    <p><strong>Hora:</strong> 6:00 pm</p>
+    <p><strong>Lugar:</strong> San Jerónimo, Antioquia <button id="btnMapa" type="button" class="map-btn">Ubicación</button></p>
+    <div id="mapaModal" class="mapa-modal" style="display:none;">
+      <div class="mapa-modal-content">
+        <span id="cerrarMapa" class="cerrar-mapa">&times;</span>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3964.4945396334006!2d-75.72784042500759!3d6.458851793532691!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMjcnMzEuOSJOIDc1wrA0MyczMS4wIlc!5e0!3m2!1sen!2sco!4v1751324760512!5m2!1sen!2sco" width="100%" height="350" style="border:0; border-radius:12px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+    <p><strong>Vestimenta:</strong> Formal</p>
+  </section>
+
+  <section id="lluviaSobresSection" class="seccion-box" style="display:none">
+    <h2>Lluvia de sobres</h2>
+    <div class="sobre-contenido">
+      <img src="assets/Sobre.jpg" alt="Sobre para lluvia de sobres" class="sobre-imagen" />
+      <p>Tu colaboración será muy apreciada para hacer de esta celebración un momento aún más especial.</p>
+    </div>
+  </section>
+
+  <section id="timerSection" class="seccion-box" style="display:none">
+    <div id="timerBox" class="figura-irregular">
+      <div class="timer-cenicienta">
+        <h3>Faltan <span id="timer"></span> para la fiesta</h3>
+      </div>
+    </div>
+  </section>
+
+  <section id="fraseSection" class="seccion-box" style="display:none">
+    <div class="frase-contenido">
+      <p class="frase-principal">
+        Dicen que, al despertar, tenemos diez segundos para recordar lo que soñamos la noche anterior.
+      </p>
+      <p class="frase-sueno">
+        Un sueño que hoy se hace realidad:
+      </p>
+      <h3 class="frase-fiesta">¡mi fiesta de 15 años!</h3>
+      <p class="frase-invitacion">
+        Tu presencia hará que esta noche inolvidable se convierta en uno de los días más importantes de mi vida.
+      </p>
+    </div>
+  </section>
+
+  <section id="confirmarSection" class="seccion-box" style="display:none">
+    <form id="formRSVP" class="rsvp-form" onsubmit="return false;">
+      <h3>Confirma tu asistencia</h3>
+      <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+      <input type="number" id="asistentes" name="asistentes" min="1" max="10" placeholder="N° de asistentes" required />
+      <div class="confirmacion-opcion">
+        <label><input type="radio" name="confirmado" value="true" required /> Asistiré</label>
+        <label><input type="radio" name="confirmado" value="false" required /> No asistiré</label>
+      </div>
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
+
+  <section id="albumFotosSection" class="seccion-box album-fotos-box" style="display:none">
+    <h2>¡Comparte tus fotos de la fiesta!</h2>
+    <p>Presiona el botón para ir al álbum y subir tus recuerdos. El enlace estará disponible aquí.</p>
+    <button id="btnAlbumFotos" class="album-fotos-btn">Ir al álbum de fotos</button>
+  </section>
   <footer id="footerCreador">
     <div class="footer-content">
-      <p>Creado por <strong>@miguerraga10</strong> (Instagram) | <strong>@M10</strong></p>
-      <p>Créditos: Imágenes, música y recursos utilizados son propiedad de sus respectivos autores. Proyecto sin fines de lucro, solo para uso personal y familiar.</p>
+      <p>Creado por <strong>@miguerraga10</strong></p>
+      <p>Proyecto sin fines de lucro, solo para uso personal y familiar.</p>
       <p>&copy; 2025 Nicol Franco - Invitación 15 años</p>
     </div>
   </footer>
-
-  <script src="rsvp.js"></script>
+  <div id="nieve"></div>
+  <script src="rsvp-nuevo.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
