@@ -222,6 +222,32 @@ body {
   /* Forzar aceleración por hardware */
   -webkit-transform: translate3d(0,0,0);
   transform: translate3d(0,0,0);
+  /* Ocultar elementos de YouTube */
+  overflow: hidden;
+  position: relative;
+}
+
+/* Ocultar elementos específicos de YouTube */
+#intro iframe::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Ocultar barra de título de YouTube */
+#intro iframe .ytp-title,
+#intro iframe .ytp-chrome-top,
+#intro iframe .ytp-title-text,
+#intro iframe .ytp-title-channel,
+#intro iframe .ytp-watermark {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
 }
 
 /* Bloquear cualquier intento de click en el iframe */
