@@ -11,7 +11,7 @@ const app = express();
 // Configuración CORS
 const corsOptions = {
   origin: process.env.CORS_ORIGIN || '*',
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'DELETE'],
   allowedHeaders: ['Content-Type'],
 };
 
@@ -76,6 +76,26 @@ app.get('/api/confirmaciones', async (req, res) => {
     res.json(lista);
   } catch (err) {
     console.error('Error al obtener confirmaciones:', err.message);
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// Ruta para eliminar un RSVP por ID
+app.delete('/api/confirmaciones/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log('Solicitud de eliminación para ID:', id);
+    
+    const eliminado = await RSVP.findByIdAndDelete(id);
+    
+    if (!eliminado) {
+      return res.status(404).json({ ok: false, error: 'Confirmación no encontrada' });
+    }
+    
+    console.log('Confirmación eliminada:', eliminado.nombre);
+    res.json({ ok: true, message: 'Confirmación eliminada correctamente', eliminado });
+  } catch (err) {
+    console.error('Error al eliminar confirmación:', err.message);
     res.status(500).json({ ok: false, error: err.message });
   }
 });
