@@ -2,6 +2,8 @@
 // Reemplaza la simulación por fetch real al backend
 
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('Listado.js cargado - iniciando carga de datos');
+  
   // Listado de confirmaciones
   let url = 'https://nicol15-backend.onrender.com/api/confirmaciones';
   
@@ -39,15 +41,22 @@ document.addEventListener('DOMContentLoaded', function() {
       let totalSi = 0;
       let totalNo = 0;
       
-      confirmaciones.forEach(c => {
+      confirmaciones.forEach((c, index) => {
+        console.log('Procesando confirmación:', c); // Debug
         const tr = document.createElement('tr');
+        
+        // Usar _id o index como fallback
+        const identificador = c._id || c.id || index;
+        const nombreSeguro = (c.nombre || 'Sin nombre').replace(/'/g, "\\'");
+        
         tr.innerHTML = `
-          <td>${c.nombre || 'Sin nombre'}</td>
-          <td>${c.asistentes || 0}</td>
-          <td>${c.confirmado ? 'Asistiré' : 'No asistiré'}</td>
-          <td>
-            <button onclick="eliminarConfirmacion('${c._id}', '${c.nombre || 'Sin nombre'}')" 
-                    style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;">
+          <td style="border: 1px solid #ddd; padding: 8px;">${c.nombre || 'Sin nombre'}</td>
+          <td style="border: 1px solid #ddd; padding: 8px;">${c.asistentes || 0}</td>
+          <td style="border: 1px solid #ddd; padding: 8px;">${c.confirmado ? 'Asistiré' : 'No asistiré'}</td>
+          <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">
+            <button onclick="eliminarConfirmacion('${identificador}', '${nombreSeguro}')" 
+                    style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; display: inline-block;"
+                    title="Eliminar confirmación de ${nombreSeguro}">
               🗑️ Eliminar
             </button>
           </td>
