@@ -17,14 +17,25 @@ window.addEventListener('DOMContentLoaded', function() {
   
   if (playButton && iframe) {
     playButton.addEventListener('click', function() {
-      // Iniciar música inmediatamente
+      // Iniciar música inmediatamente para PC y móvil
       const music = document.getElementById("backgroundMusic");
       if (music) {
         music.volume = 0.5;
         music.currentTime = 0;
-        music.play().catch(e => {
-          console.log('Auto-play bloqueado en móvil:', e);
-        });
+        
+        // Intentar reproducir con manejo mejorado
+        const playPromise = music.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            console.log('Música iniciada correctamente');
+          }).catch(e => {
+            console.log('Error reproduciendo música:', e);
+            // En caso de fallo, intentar de nuevo después de un breve delay
+            setTimeout(() => {
+              music.play().catch(() => {});
+            }, 100);
+          });
+        }
       }
       
       // Mostrar el iframe y ocultar el botón
