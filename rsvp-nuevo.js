@@ -37,7 +37,7 @@ async function enviarRSVP(datos) {
   console.log('🚀 ENVIANDO AL BACKEND:', datos);
   
   try {
-    const response = await fetch('http://localhost:4000/api/rsvp', {
+    const response = await fetch('https://nicol15-backend.onrender.com/api/rsvp', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

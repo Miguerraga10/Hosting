@@ -117,7 +117,7 @@ function mostrarModal(mensaje, tipo = 'ok') {
 
 // Función para enviar al backend
 async function enviarRSVP(datos) {
-  const response = await fetch('/api/rsvp', {
+  const response = await fetch('https://nicol15-backend.onrender.com/api/rsvp', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -251,10 +251,10 @@ function mostrarModal(mensaje, tipo = 'ok') {
 async function enviarRSVP(datos) {
   console.log('=== INICIANDO ENVÍO AL BACKEND ===');
   console.log('Datos a enviar:', datos);
-  console.log('URL objetivo: http://localhost:4000/api/rsvp');
+  console.log('URL objetivo: https://nicol15-backend.onrender.com/api/rsvp');
   
   try {
-    const response = await fetch('http://localhost:4000/api/rsvp', {
+    const response = await fetch('https://nicol15-backend.onrender.com/api/rsvp', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

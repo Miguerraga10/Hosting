@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Listado de confirmaciones
   let url = '/api/confirmaciones';
   if (window.location.protocol === 'file:') {
-    url = 'http://localhost:4000/api/confirmaciones';
+    url = 'https://nicol15-backend.onrender.com/api/confirmaciones';
   }
   fetch(url)
     .then(res => res.json())
