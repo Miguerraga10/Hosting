@@ -1,14 +1,5 @@
 // Mostrar la sección principal solo después del video
 window.addEventListener('DOMContentLoaded', function() {
-  // Detectar si es móvil y mostrar hint
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  if (isMobile) {
-    const mobileHint = document.getElementById('mobileHint');
-    if (mobileHint) {
-      mobileHint.style.display = 'block';
-    }
-  }
-  
   // Inicializar temporizador
   iniciarTemporizador();
   
@@ -20,77 +11,44 @@ window.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Pre-cargar y preparar audio para móviles
-  const music = document.getElementById("backgroundMusic");
-  if (music) {
-    music.load(); // Pre-cargar el audio
-    
-    // Crear un contexto de audio desbloqueado para móviles
-    const unlockAudio = () => {
-      music.play().then(() => {
-        music.pause();
-        music.currentTime = 0;
-        console.log('Audio desbloqueado para móviles');
-        
-        // Ocultar hint después de desbloquear
-        const mobileHint = document.getElementById('mobileHint');
-        if (mobileHint) {
-          mobileHint.style.display = 'none';
-        }
-      }).catch(() => {
-        console.log('No se pudo desbloquear audio');
-      });
-      
-      // Remover el listener después del primer uso
-      document.removeEventListener('touchstart', unlockAudio);
-      document.removeEventListener('click', unlockAudio);
-    };
-    
-    // Detectar primer toque para desbloquear audio
-    document.addEventListener('touchstart', unlockAudio, { once: true });
-    document.addEventListener('click', unlockAudio, { once: true });
-  }
-
   // Configurar manejo del video de YouTube (sin controles, sin pausas)
   const playButton = document.getElementById('playButton');
   const iframe = document.getElementById('mainVideo');
   
   if (playButton && iframe) {
     playButton.addEventListener('click', function() {
-      // CRÍTICO: Usar Promise para sincronizar audio y video
+      // Iniciar música inmediatamente para PC y móvil
       const music = document.getElementById("backgroundMusic");
-      
       if (music) {
         music.volume = 0.5;
         music.currentTime = 0;
         
-        // Intentar reproducir música con manejo de promesas
-        music.play().then(() => {
-          console.log('Música iniciada correctamente');
-          // Solo mostrar video después de que la música esté reproduciendo
-          startVideoPlayback();
-        }).catch((error) => {
-          console.log('Error reproduciendo música:', error);
-          // Mostrar video aunque la música falle
-          startVideoPlayback();
-        });
-      } else {
-        startVideoPlayback();
+        // Intentar reproducir con manejo mejorado
+        const playPromise = music.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            console.log('Música iniciada correctamente');
+          }).catch(e => {
+            console.log('Error reproduciendo música:', e);
+            // En caso de fallo, intentar de nuevo después de un breve delay
+            setTimeout(() => {
+              music.play().catch(() => {});
+            }, 100);
+          });
+        }
       }
       
-      function startVideoPlayback() {
-        // Mostrar el iframe y ocultar el botón
-        iframe.style.display = 'block';
-        playButton.style.display = 'none';
-        
-        // Cambiar src para iniciar autoplay del video
-        iframe.src = 'https://www.youtube.com/embed/irHzDOUBv3A?autoplay=1&mute=0&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&loop=0&start=0&disablekb=1&fs=0&playsinline=1&vq=hd2160&hd=1&quality=hd2160&fmt=22&title=0&byline=0&portrait=0&color=ffffff&autopause=0';
-        
-        // Video completo: 1 minuto 14 segundos = 74 segundos + margen
-        setTimeout(() => {
-          showInfo();
-        }, 76000);
-      }
+      // Mostrar el iframe y ocultar el botón
+      iframe.style.display = 'block';
+      playButton.style.display = 'none';
+      
+      // Cambiar src para iniciar autoplay del video
+      iframe.src = 'https://www.youtube.com/embed/irHzDOUBv3A?autoplay=1&mute=0&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&loop=0&start=0&disablekb=1&fs=0&playsinline=1&vq=hd2160&hd=1&quality=hd2160&fmt=22&title=0&byline=0&portrait=0&color=ffffff&autopause=0';
+      
+      // Video completo: 1 minuto 14 segundos = 74 segundos + margen
+      setTimeout(() => {
+        showInfo();
+      }, 76000);
     });
   }
 });

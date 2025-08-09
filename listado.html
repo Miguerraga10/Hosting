@@ -12,6 +12,10 @@
 <body>
   <section id="listadoSection">
     <h2>Listado de confirmaciones</h2>
+    <button onclick="testConnection()" style="margin-bottom: 10px; padding: 8px 16px; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      🔍 Probar conexión
+    </button>
+    <div id="testResult" style="margin-bottom: 10px; padding: 8px; border-radius: 4px; display: none;"></div>
     <div id="resumenConfirmaciones">
       <p><strong>Total que confirman:</strong> <span id="totalSi">0</span></p>
       <p><strong>Total que no van:</strong> <span id="totalNo">0</span></p>
