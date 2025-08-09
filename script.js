@@ -1,12 +1,3 @@
-// Variables globales para YouTube
-let player;
-let isYouTubeReady = false;
-
-// Función llamada por la API de YouTube cuando está lista
-function onYouTubeIframeAPIReady() {
-  isYouTubeReady = true;
-}
-
 // Mostrar la sección principal solo después del video
 window.addEventListener('DOMContentLoaded', function() {
   // Inicializar temporizador
@@ -20,56 +11,28 @@ window.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Configurar manejo del video de YouTube
-  const playButton = document.getElementById('playButton');
-  
-  if (playButton) {
-    playButton.addEventListener('click', function() {
-      // Crear el player de YouTube cuando se haga click
-      if (isYouTubeReady || window.YT) {
-        player = new YT.Player('mainVideo', {
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
-      } else {
-        // Fallback si la API no está lista
-        const iframe = document.getElementById('mainVideo');
-        iframe.style.display = 'block';
-        playButton.style.display = 'none';
-        
-        const currentSrc = iframe.src;
-        iframe.src = currentSrc.replace('autoplay=0', 'autoplay=1');
-        
-        // Timeout para mostrar las secciones
-        setTimeout(() => {
-          showInfo();
-        }, 20000); // 20 segundos
-      }
-    });
-  }
-});
-
-// Funciones para el player de YouTube
-function onPlayerReady(event) {
+  // Configurar manejo del video de YouTube (sin controles, sin pausas)
   const playButton = document.getElementById('playButton');
   const iframe = document.getElementById('mainVideo');
   
-  // Mostrar video y ocultar botón
-  iframe.style.display = 'block';
-  playButton.style.display = 'none';
-  
-  // Reproducir el video
-  event.target.playVideo();
-}
-
-function onPlayerStateChange(event) {
-  // Cuando el video termine (estado 0)
-  if (event.data == YT.PlayerState.ENDED) {
-    showInfo();
+  if (playButton && iframe) {
+    playButton.addEventListener('click', function() {
+      // Mostrar el iframe y ocultar el botón
+      iframe.style.display = 'block';
+      playButton.style.display = 'none';
+      
+      // Cambiar src para iniciar autoplay automáticamente
+      const currentSrc = iframe.src;
+      iframe.src = currentSrc.replace('autoplay=0', 'autoplay=1');
+      
+      // El video se reproduce sin controles, sin posibilidad de pausar
+      // Después de un tiempo determinado, continúa automáticamente
+      setTimeout(() => {
+        showInfo();
+      }, 18000); // 18 segundos - ajustado para YouTube Short
+    });
   }
-}
+});
 function startPresentation() {
   const intro = document.getElementById("intro");
   const content = document.getElementById("content");

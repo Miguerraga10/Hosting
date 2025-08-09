@@ -197,10 +197,32 @@ body {
   position: relative;
 }
 
-#intro video {
+#intro video, #intro iframe {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Estilos específicos para iframe de YouTube sin interacción */
+#intro iframe {
+  pointer-events: none !important;
+  border-radius: 32px;
+  box-shadow: 0 0 40px #c084fc;
+  max-width: 420px;
+  max-height: 80vh;
+  aspect-ratio: 9/16;
+}
+
+/* Bloquear cualquier intento de click en el iframe */
+#intro iframe::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  pointer-events: none;
 }
 
 #introVideo {
