@@ -22,13 +22,13 @@ window.addEventListener('DOMContentLoaded', function() {
       playButton.style.display = 'none';
       
       // Cambiar src para iniciar autoplay automáticamente sin elementos de YouTube
-      iframe.src = 'https://www.youtube.com/embed/irHzDOUBv3A?autoplay=1&mute=0&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&loop=0&start=0&disablekb=1&fs=0&playsinline=1&vq=hd2160&hd=1&quality=hd2160&fmt=22&title=0&byline=0&portrait=0&color=ffffff&autopause=0&end=18';
+      iframe.src = 'https://www.youtube.com/embed/irHzDOUBv3A?autoplay=1&mute=0&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&loop=0&start=0&disablekb=1&fs=0&playsinline=1&vq=hd2160&hd=1&quality=hd2160&fmt=22&title=0&byline=0&portrait=0&color=ffffff&autopause=0';
       
       // El video se reproduce sin controles, sin posibilidad de pausar
-      // Aumentar tiempo para asegurar reproducción completa
+      // Video completo: 1 minuto 14 segundos = 74 segundos + margen
       setTimeout(() => {
         showInfo();
-      }, 19000); // 19 segundos para dar margen
+      }, 76000); // 76 segundos para asegurar reproducción completa
     });
   }
 });
