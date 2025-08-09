@@ -1,6 +1,18 @@
 // Este script debe conectarse al backend para obtener los datos de confirmación
 // Reemplaza la simulación por fetch real al backend
 
+// Polyfill para addEventListener en navegadores más antiguos
+if (!Element.prototype.addEventListener) {
+  Element.prototype.addEventListener = function(event, fn) {
+    return this.attachEvent('on' + event, fn);
+  };
+}
+
+// Polyfill para asegurar que fetch esté disponible
+if (!window.fetch) {
+  console.error('Fetch no está disponible en este navegador');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Listado.js cargado - iniciando carga de datos');
   
@@ -10,14 +22,14 @@ document.addEventListener('DOMContentLoaded', function() {
   console.log('Intentando cargar desde:', url);
   
   fetch(url)
-    .then(res => {
+    .then(function(res) {
       console.log('Respuesta recibida:', res.status, res.statusText);
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}: ${res.statusText}`);
       }
       return res.json();
     })
-    .then(confirmaciones => {
+    .then(function(confirmaciones) {
       console.log('Datos recibidos:', confirmaciones);
       const tbody = document.querySelector('#tablaConfirmaciones tbody');
       tbody.innerHTML = '';
@@ -41,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
       let totalSi = 0;
       let totalNo = 0;
       
-      confirmaciones.forEach((c, index) => {
+      confirmaciones.forEach(function(c, index) {
         console.log('Procesando confirmación:', c); // Debug
         const tr = document.createElement('tr');
         
@@ -67,15 +79,35 @@ document.addEventListener('DOMContentLoaded', function() {
         const tdAcciones = document.createElement('td');
         tdAcciones.style.cssText = 'border: 1px solid #ddd; padding: 8px; text-align: center;';
         
-        const btnEliminar = document.createElement('button');
-        btnEliminar.textContent = '🗑️ Eliminar';
-        btnEliminar.style.cssText = 'background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;';
-        btnEliminar.title = `Eliminar confirmación de ${c.nombre || 'Sin nombre'}`;
-        btnEliminar.onclick = function() {
-          eliminarConfirmacion(identificador, c.nombre || 'Sin nombre');
-        };
-        
-        tdAcciones.appendChild(btnEliminar);
+        // Método principal para crear el botón
+        try {
+          const btnEliminar = document.createElement('button');
+          btnEliminar.textContent = '🗑️ Eliminar';
+          btnEliminar.style.cssText = 'background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;';
+          btnEliminar.title = `Eliminar confirmación de ${c.nombre || 'Sin nombre'}`;
+          btnEliminar.setAttribute('data-id', identificador);
+          btnEliminar.setAttribute('data-nombre', c.nombre || 'Sin nombre');
+          btnEliminar.type = 'button'; // Especificar tipo explícitamente
+          
+          // Usar addEventListener en lugar de onclick para mejor compatibilidad
+          btnEliminar.addEventListener('click', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const id = this.getAttribute('data-id');
+            const nombre = this.getAttribute('data-nombre');
+            eliminarConfirmacion(id, nombre);
+          });
+          
+          tdAcciones.appendChild(btnEliminar);
+        } catch (error) {
+          console.error('Error creando botón principal, usando método alternativo:', error);
+          // Método alternativo si hay problemas
+          tdAcciones.innerHTML = `<button onclick="eliminarConfirmacion('${identificador}', '${nombreSeguro}')" 
+                                   style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;"
+                                   title="Eliminar confirmación de ${c.nombre || 'Sin nombre'}">
+                                   🗑️ Eliminar
+                                 </button>`;
+        }
         
         tr.appendChild(tdNombre);
         tr.appendChild(tdAsistentes);
@@ -97,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       console.log('Tabla actualizada con', confirmaciones.length, 'registros');
     })
-    .catch((err) => {
+    .catch(function(err) {
       console.error('Error completo:', err);
       const tbody = document.querySelector('#tablaConfirmaciones tbody');
       tbody.innerHTML = `<tr><td colspan="4">Error de conexión.<br>${err.message}<br><small>Verifica que el backend esté funcionando.</small></td></tr>`;
@@ -108,33 +140,40 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Función para eliminar una confirmación
 function eliminarConfirmacion(id, nombre) {
-  if (!confirm(`¿Estás seguro de que quieres eliminar la confirmación de "${nombre}"?`)) {
+  // Usar window.confirm para mejor compatibilidad
+  if (!window.confirm(`¿Estás seguro de que quieres eliminar la confirmación de "${nombre}"?`)) {
     return;
   }
   
   console.log('Eliminando confirmación con ID:', id);
   
-  fetch(`https://nicol15-backend.onrender.com/api/confirmaciones/${id}`, {
+  // Crear objeto de configuración más explícito para fetch
+  var fetchConfig = {
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-  .then(res => {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    mode: 'cors',
+    cache: 'no-cache'
+  };
+  
+  fetch(`https://nicol15-backend.onrender.com/api/confirmaciones/${id}`, fetchConfig)
+  .then(function(res) {
     if (!res.ok) {
       throw new Error(`HTTP ${res.status}: ${res.statusText}`);
     }
     return res.json();
   })
-  .then(result => {
+  .then(function(result) {
     console.log('Eliminación exitosa:', result);
-    alert(`Confirmación de "${nombre}" eliminada correctamente.`);
+    window.alert(`Confirmación de "${nombre}" eliminada correctamente.`);
     
-    // Recargar la tabla
-    location.reload();
+    // Recargar la tabla usando window.location para mayor compatibilidad
+    window.location.reload();
   })
-  .catch(err => {
+  .catch(function(err) {
     console.error('Error eliminando confirmación:', err);
-    alert(`Error al eliminar la confirmación: ${err.message}`);
+    window.alert(`Error al eliminar la confirmación: ${err.message}`);
   });
 }
