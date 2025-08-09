@@ -13,18 +13,14 @@ services:
         value: production
       - key: PORT
         value: 10000
-      - key: MONGODB_URI
-        fromDatabase:
-          name: mongodb-atlas
-          property: connectionString
       - key: DB_NAME
         value: invitacion15sNicolFranco
       - key: COLLECTION_NAME
         value: Confirmaciones
       - key: CORS_ORIGIN
         value: "*"
-    domains:
-      - nicol15-backend.onrender.com
+      # MONGODB_URI debe configurarse manualmente en el dashboard
+      # por seguridad y para evitar errores de configuración automática
     autoDeploy: true
     branch: main
     rootDir: backend
