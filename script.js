@@ -1,3 +1,12 @@
+// Variables globales para YouTube
+let player;
+let isYouTubeReady = false;
+
+// Función llamada por la API de YouTube cuando está lista
+function onYouTubeIframeAPIReady() {
+  isYouTubeReady = true;
+}
+
 // Mostrar la sección principal solo después del video
 window.addEventListener('DOMContentLoaded', function() {
   // Inicializar temporizador
@@ -10,24 +19,57 @@ window.addEventListener('DOMContentLoaded', function() {
       window.open('https://photos.app.goo.gl/24Mxk3AU9jweS6uC7', '_blank');
     });
   }
+
+  // Configurar manejo del video de YouTube
+  const playButton = document.getElementById('playButton');
   
-  // Agregar event listener adicional al video para asegurar que se oculte
-  const video = document.getElementById('mainVideo');
-  if (video) {
-    video.addEventListener('ended', function() {
-      // Asegurar que el video y su contenedor se oculten
-      const intro = document.getElementById('intro');
-      if (intro) {
-        intro.style.display = 'none';
+  if (playButton) {
+    playButton.addEventListener('click', function() {
+      // Crear el player de YouTube cuando se haga click
+      if (isYouTubeReady || window.YT) {
+        player = new YT.Player('mainVideo', {
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      } else {
+        // Fallback si la API no está lista
+        const iframe = document.getElementById('mainVideo');
+        iframe.style.display = 'block';
+        playButton.style.display = 'none';
+        
+        const currentSrc = iframe.src;
+        iframe.src = currentSrc.replace('autoplay=0', 'autoplay=1');
+        
+        // Timeout para mostrar las secciones
+        setTimeout(() => {
+          showInfo();
+        }, 20000); // 20 segundos
       }
-      video.style.display = 'none';
-      
-      // Evitar que el video se reinicie
-      video.removeAttribute('autoplay');
-      video.currentTime = video.duration;
     });
   }
 });
+
+// Funciones para el player de YouTube
+function onPlayerReady(event) {
+  const playButton = document.getElementById('playButton');
+  const iframe = document.getElementById('mainVideo');
+  
+  // Mostrar video y ocultar botón
+  iframe.style.display = 'block';
+  playButton.style.display = 'none';
+  
+  // Reproducir el video
+  event.target.playVideo();
+}
+
+function onPlayerStateChange(event) {
+  // Cuando el video termine (estado 0)
+  if (event.data == YT.PlayerState.ENDED) {
+    showInfo();
+  }
+}
 function startPresentation() {
   const intro = document.getElementById("intro");
   const content = document.getElementById("content");

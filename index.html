@@ -8,6 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+  
+  <!-- YouTube IFrame API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
   <audio id="backgroundMusic" src="assets/song.mp3" autoplay loop></audio>
@@ -19,10 +22,13 @@
   
   <!-- Video principal -->
   <section id="intro">
-    <video id="mainVideo" playsinline onended="showInfo()" preload="auto">
-      <source src="assets/video.mp4" type="video/mp4" />
-      Tu navegador no soporta videos HTML5.
-    </video>
+    <iframe id="mainVideo" 
+            src="https://www.youtube.com/embed/irHzDOUBv3A?autoplay=0&mute=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&loop=0&start=0"
+            style="display:none; width: 100%; height: 100%; border-radius: 32px; box-shadow: 0 0 40px #c084fc; max-width: 420px; max-height: 80vh; aspect-ratio: 9/16;"
+            frameborder="0" 
+            allow="autoplay; encrypted-media" 
+            allowfullscreen>
+    </iframe>
     <div id="playButton" class="play-button">
       <div class="play-icon">▶</div>
       <p>Toca para comenzar</p>
@@ -105,5 +111,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
-
