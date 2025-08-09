@@ -12,6 +12,12 @@
 <body>
   <section id="listadoSection">
     <h2>Listado de confirmaciones</h2>
+    <button id="btnActualizar" style="margin-bottom: 20px; padding: 10px 20px; background: #c084fc; color: white; border: none; border-radius: 5px; cursor: pointer;">
+      🔄 Actualizar datos
+    </button>
+    <div id="estadoConexion" style="margin-bottom: 10px; padding: 10px; border-radius: 5px; background: #f0f0f0;">
+      Cargando datos...
+    </div>
     <div id="resumenConfirmaciones">
       <p><strong>Total que confirman:</strong> <span id="totalSi">0</span></p>
       <p><strong>Total que no van:</strong> <span id="totalNo">0</span></p>
@@ -22,6 +28,8 @@
           <th>Nombre</th>
           <th>Asistentes</th>
           <th>¿Confirma?</th>
+          <th>Mensaje</th>
+          <th>Fecha</th>
         </tr>
       </thead>
       <tbody>
