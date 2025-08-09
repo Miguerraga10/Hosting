@@ -21,6 +21,15 @@ window.addEventListener('DOMContentLoaded', function() {
       iframe.style.display = 'block';
       playButton.style.display = 'none';
       
+      // Intentar reproducir música de fondo en móviles
+      const music = document.getElementById("backgroundMusic");
+      if (music) {
+        music.volume = 0.5;
+        music.play().catch(e => {
+          console.log('Auto-play bloqueado en móvil, se intentará más tarde');
+        });
+      }
+      
       // Cambiar src para iniciar autoplay automáticamente sin elementos de YouTube
       iframe.src = 'https://www.youtube.com/embed/irHzDOUBv3A?autoplay=1&mute=0&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&loop=0&start=0&disablekb=1&fs=0&playsinline=1&vq=hd2160&hd=1&quality=hd2160&fmt=22&title=0&byline=0&portrait=0&color=ffffff&autopause=0';
       
@@ -141,16 +150,28 @@ function showInfo() {
   const music = document.getElementById("backgroundMusic");
   if (music) {
     music.volume = 0.3;
-    music.play().catch(() => {
-      // Si no se puede reproducir automáticamente, esperar a la interacción del usuario
-      const playOnClick = () => {
-        music.play().catch(() => {});
-        document.removeEventListener('click', playOnClick);
-        document.removeEventListener('touchstart', playOnClick);
-      };
-      document.addEventListener('click', playOnClick);
-      document.addEventListener('touchstart', playOnClick);
-    });
+    // Intentar reproducir música - en móviles puede fallar
+    const playMusic = () => {
+      music.play().catch(() => {
+        console.log('Autoplay bloqueado, esperando interacción del usuario');
+      });
+    };
+    
+    // Intentar reproducir inmediatamente
+    playMusic();
+    
+    // Si falla, reproducir en la próxima interacción
+    const playOnInteraction = () => {
+      music.play().catch(() => {});
+      document.removeEventListener('click', playOnInteraction);
+      document.removeEventListener('touchstart', playOnInteraction);
+      document.removeEventListener('touchend', playOnInteraction);
+    };
+    
+    // Agregar listeners para múltiples tipos de interacción
+    document.addEventListener('click', playOnInteraction, { once: true });
+    document.addEventListener('touchstart', playOnInteraction, { once: true });
+    document.addEventListener('touchend', playOnInteraction, { once: true });
   }
 }
 
