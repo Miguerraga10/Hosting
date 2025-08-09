@@ -1,35 +1,6 @@
 // Este script debe conectarse al backend para obtener los datos de confirmación
 // Reemplaza la simulación por fetch real al backend
 
-// Función de prueba para verificar conectividad
-function testConnection() {
-  const testResult = document.getElementById('testResult');
-  testResult.style.display = 'block';
-  testResult.textContent = 'Probando conexión...';
-  testResult.style.background = '#fef3c7';
-  
-  fetch('https://nicol15-backend.onrender.com/health')
-    .then(res => res.json())
-    .then(data => {
-      testResult.textContent = `✅ Backend funcionando: ${data.status}`;
-      testResult.style.background = '#d1fae5';
-      
-      // Probar endpoint de confirmaciones
-      return fetch('https://nicol15-backend.onrender.com/api/confirmaciones');
-    })
-    .then(res => {
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return res.json();
-    })
-    .then(data => {
-      testResult.textContent = `✅ Endpoint funcionando. Datos: ${Array.isArray(data) ? data.length + ' registros' : 'formato incorrecto'}`;
-    })
-    .catch(err => {
-      testResult.textContent = `❌ Error: ${err.message}`;
-      testResult.style.background = '#fecaca';
-    });
-}
-
 document.addEventListener('DOMContentLoaded', function() {
   // Listado de confirmaciones
   let url = 'https://nicol15-backend.onrender.com/api/confirmaciones';
