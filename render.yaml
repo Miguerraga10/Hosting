@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: nicol15-backend
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    env: node
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        fromDatabase:
+          name: mongodb-atlas
+          property: connectionString
+      - key: DB_NAME
+        value: invitacion15sNicolFranco
+      - key: COLLECTION_NAME
+        value: Confirmaciones
+      - key: CORS_ORIGIN
+        value: "*"
+    domains:
+      - nicol15-backend.onrender.com
+    autoDeploy: true
+    branch: main
+    rootDir: backend

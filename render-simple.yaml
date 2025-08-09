@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: nicol15-backend
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    env: node
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DB_NAME
+        value: invitacion15sNicolFranco
+      - key: COLLECTION_NAME
+        value: Confirmaciones
+      - key: CORS_ORIGIN
+        value: "*"
+      # MONGODB_URI debe configurarse manualmente en el dashboard de Render
+      # por seguridad, no se incluye aquí
+    domains:
+      - nicol15-backend.onrender.com
+    autoDeploy: true
+    branch: main
+    rootDir: backend
