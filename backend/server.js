@@ -70,7 +70,9 @@ app.post('/api/rsvp', async (req, res) => {
 // Ruta para obtener todos los RSVP
 app.get('/api/confirmaciones', async (req, res) => {
   try {
+    console.log('Solicitud recibida para /api/confirmaciones');
     const lista = await RSVP.find();
+    console.log(`Encontradas ${lista.length} confirmaciones`);
     res.json(lista);
   } catch (err) {
     console.error('Error al obtener confirmaciones:', err.message);
