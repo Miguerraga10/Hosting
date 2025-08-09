@@ -211,6 +211,17 @@ body {
   max-width: 420px;
   max-height: 80vh;
   aspect-ratio: 9/16;
+  /* Mejorar calidad de renderizado */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: high-quality;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+  /* Forzar aceleración por hardware */
+  -webkit-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
 }
 
 /* Bloquear cualquier intento de click en el iframe */

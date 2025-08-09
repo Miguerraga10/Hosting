@@ -21,8 +21,8 @@ window.addEventListener('DOMContentLoaded', function() {
       iframe.style.display = 'block';
       playButton.style.display = 'none';
       
-      // Cambiar src para iniciar autoplay automáticamente con calidad 4K
-      iframe.src = 'https://www.youtube.com/embed/irHzDOUBv3A?autoplay=1&mute=0&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&loop=0&start=0&disablekb=1&fs=0&playsinline=1&vq=hd2160';
+      // Cambiar src para iniciar autoplay automáticamente con máxima calidad
+      iframe.src = 'https://www.youtube.com/embed/irHzDOUBv3A?autoplay=1&mute=0&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&loop=0&start=0&disablekb=1&fs=0&playsinline=1&vq=hd2160&hd=1&quality=hd2160&fmt=22';
       
       // El video se reproduce sin controles, sin posibilidad de pausar
       // Después de un tiempo determinado, continúa automáticamente
