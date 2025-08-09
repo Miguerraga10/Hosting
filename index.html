@@ -8,9 +8,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+  
+  <!-- YouTube IFrame API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
-  <audio id="backgroundMusic" src="assets/song.mp3" autoplay loop></audio>
+  <audio id="backgroundMusic" src="assets/song.mp3" loop preload="auto" playsinline webkit-playsinline x5-playsinline></audio></audio>
   
   <!-- Video de fondo -->
   <video id="backgroundVideo" class="video-fondo" autoplay muted loop style="display:none;">
@@ -19,13 +22,19 @@
   
   <!-- Video principal -->
   <section id="intro">
-    <video id="mainVideo" playsinline onended="showInfo()" preload="auto">
-      <source src="assets/intro.mp4" type="video/mp4" />
-      Tu navegador no soporta videos HTML5.
-    </video>
+    <iframe id="mainVideo" 
+            src="https://www.youtube.com/embed/irHzDOUBv3A?autoplay=0&mute=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&loop=0&start=0&disablekb=1&fs=0&playsinline=1&vq=hd2160&hd=1&quality=hd2160&title=0&byline=0&portrait=0&color=ffffff&autopause=0"
+            style="display:none; width: 100%; height: 100%; border-radius: 32px; box-shadow: 0 0 40px #c084fc; max-width: 420px; max-height: 80vh; aspect-ratio: 9/16; pointer-events: none;"
+            frameborder="0" 
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowfullscreen>
+    </iframe>
     <div id="playButton" class="play-button">
       <div class="play-icon">▶</div>
       <p>Toca para comenzar</p>
+      <small id="mobileHint" style="display:none; font-size: 12px; opacity: 0.8; margin-top: 5px;">
+        📱 En móviles: Toca aquí primero para activar audio
+      </small>
     </div>
   </section>
 
