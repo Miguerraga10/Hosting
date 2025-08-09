@@ -47,20 +47,41 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Usar _id o index como fallback
         const identificador = c._id || c.id || index;
-        const nombreSeguro = (c.nombre || 'Sin nombre').replace(/'/g, "\\'");
+        const nombreSeguro = (c.nombre || 'Sin nombre').replace(/'/g, "&apos;");
         
-        tr.innerHTML = `
-          <td style="border: 1px solid #ddd; padding: 8px;">${c.nombre || 'Sin nombre'}</td>
-          <td style="border: 1px solid #ddd; padding: 8px;">${c.asistentes || 0}</td>
-          <td style="border: 1px solid #ddd; padding: 8px;">${c.confirmado ? 'Asistiré' : 'No asistiré'}</td>
-          <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">
-            <button onclick="eliminarConfirmacion('${identificador}', '${nombreSeguro}')" 
-                    style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; display: inline-block;"
-                    title="Eliminar confirmación de ${nombreSeguro}">
-              🗑️ Eliminar
-            </button>
-          </td>
-        `;
+        console.log('ID:', identificador, 'Nombre:', nombreSeguro); // Debug adicional
+        
+        // Crear celdas individualmente para evitar problemas con innerHTML
+        const tdNombre = document.createElement('td');
+        tdNombre.style.cssText = 'border: 1px solid #ddd; padding: 8px;';
+        tdNombre.textContent = c.nombre || 'Sin nombre';
+        
+        const tdAsistentes = document.createElement('td');
+        tdAsistentes.style.cssText = 'border: 1px solid #ddd; padding: 8px;';
+        tdAsistentes.textContent = c.asistentes || 0;
+        
+        const tdConfirma = document.createElement('td');
+        tdConfirma.style.cssText = 'border: 1px solid #ddd; padding: 8px;';
+        tdConfirma.textContent = c.confirmado ? 'Asistiré' : 'No asistiré';
+        
+        const tdAcciones = document.createElement('td');
+        tdAcciones.style.cssText = 'border: 1px solid #ddd; padding: 8px; text-align: center;';
+        
+        const btnEliminar = document.createElement('button');
+        btnEliminar.textContent = '🗑️ Eliminar';
+        btnEliminar.style.cssText = 'background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;';
+        btnEliminar.title = `Eliminar confirmación de ${c.nombre || 'Sin nombre'}`;
+        btnEliminar.onclick = function() {
+          eliminarConfirmacion(identificador, c.nombre || 'Sin nombre');
+        };
+        
+        tdAcciones.appendChild(btnEliminar);
+        
+        tr.appendChild(tdNombre);
+        tr.appendChild(tdAsistentes);
+        tr.appendChild(tdConfirma);
+        tr.appendChild(tdAcciones);
+        
         tbody.appendChild(tr);
         
         const asistentes = parseInt(c.asistentes) || 0;
