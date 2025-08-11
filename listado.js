@@ -111,11 +111,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         tbody.appendChild(tr);
         
-        const asistentes = parseInt(c.asistentes) || 0;
+        // Contar solo las confirmaciones (1 por registro), no los asistentes
         if (c.confirmado) {
-          totalSi += asistentes;
+          totalSi += 1;
         } else {
-          totalNo += asistentes;
+          totalNo += 1;
         }
       });
       
