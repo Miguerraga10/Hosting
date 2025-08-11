@@ -42,8 +42,8 @@ window.addEventListener('DOMContentLoaded', function() {
       iframe.style.display = 'block';
       playButton.style.display = 'none';
       
-      // Cargar el video con autoplay inmediatamente
-      iframe.src = 'https://www.youtube.com/embed/l87bFjHsdyM?autoplay=1&mute=0&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&loop=0&start=0&disablekb=1&fs=0&playsinline=1&vq=hd2160&hd=1&quality=hd2160&fmt=22&title=0&byline=0&portrait=0&color=000000&autopause=0&cc_load_policy=0&hl=es&origin=https%3A%2F%2Fwww.example.com&end_screen_info=0&annotation_id=0&theme=dark&autohide=1';
+  // Cargar el video con autoplay y mute para máxima compatibilidad (Safari, Chrome, Edge, Firefox)
+  iframe.src = 'https://www.youtube.com/embed/l87bFjHsdyM?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&loop=0&start=0&disablekb=1&fs=0&playsinline=1&vq=hd2160&hd=1&quality=hd2160&fmt=22&title=0&byline=0&portrait=0&color=000000&autopause=0&cc_load_policy=0&hl=es&origin=https%3A%2F%2Fwww.example.com&end_screen_info=0&annotation_id=0&theme=dark&autohide=1';
       
       // Video completo: YouTube Short (aproximadamente 60 segundos)
       setTimeout(() => {
