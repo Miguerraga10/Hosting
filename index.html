@@ -108,17 +108,15 @@
       <!-- Primer asistente (principal) -->
       <div class="asistente-item" data-index="0">
         <input type="text" class="nombre-asistente" placeholder="Tu nombre" required />
-        <button type="button" class="btn-eliminar" onclick="eliminarAsistente(0)" style="display:none;">❌</button>
       </div>
-      
-      <button type="button" id="btnAgregarAcompanante" class="btn-agregar">+ Agregar acompañante</button>
       
       <!-- Contenedor para acompañantes adicionales -->
       <div id="acompanantesContainer"></div>
       
+      <button type="button" id="btnAgregarAcompanante" class="btn-agregar">+ Agregar acompañante</button>
+      
       <!-- Opciones de confirmación para todos -->
       <div class="confirmacion-general">
-        <h4>Confirmación de asistencia:</h4>
         <div class="confirmacion-opcion">
           <label><input type="radio" name="confirmado_general" value="true" required /> Asistiré</label>
           <label><input type="radio" name="confirmado_general" value="false" required /> No asistiré</label>
