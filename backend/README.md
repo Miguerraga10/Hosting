@@ -88,3 +88,45 @@ backend/
 - Las variables de entorno sensibles están protegidas en el archivo `.env`
 - El archivo `.env` está incluido en `.gitignore` para evitar commits accidentales
 - CORS está configurado para controlar el acceso desde diferentes orígenes
+
+## Despliegue en Render
+
+### Opción 1: Usando render.yaml (automático)
+
+1. Sube tu código a un repositorio de GitHub
+2. Conecta tu repositorio a Render
+3. Render detectará automáticamente el archivo `render.yaml` en la raíz del proyecto
+4. Configura manualmente la variable `MONGODB_URI` en el dashboard de Render:
+   - Ve a tu servicio en Render
+   - Environment → Add Environment Variable
+   - Agrega `MONGODB_URI` con tu cadena de conexión de MongoDB Atlas
+
+### Opción 2: Configuración manual
+
+1. Crea un nuevo Web Service en Render
+2. Conecta tu repositorio de GitHub
+3. Configura:
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+   - **Root Directory**: `backend`
+   - **Environment**: `Node`
+4. Agrega las variables de entorno necesarias:
+   ```
+   NODE_ENV=production
+   PORT=10000
+   MONGODB_URI=tu_cadena_de_conexion_mongodb
+   DB_NAME=invitacion15sNicolFranco
+   COLLECTION_NAME=Confirmaciones
+   CORS_ORIGIN=*
+   ```
+
+### Variables de entorno en producción
+
+Para Render, las variables de entorno se configuran en el dashboard:
+- `MONGODB_URI`: Tu cadena de conexión completa de MongoDB Atlas
+- `PORT`: Render asigna automáticamente, pero usa 10000 por defecto
+- Otras variables según necesites
+
+### Health Check
+
+El endpoint `/health` está disponible para monitoreo del estado del servidor.
