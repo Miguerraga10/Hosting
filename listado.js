@@ -37,14 +37,14 @@ document.addEventListener('DOMContentLoaded', function() {
       // Verificar si es un array válido
       if (!Array.isArray(confirmaciones)) {
         console.error('Los datos no son un array:', confirmaciones);
-        tbody.innerHTML = `<tr><td colspan="4">Error: Los datos recibidos no son válidos.<br>${confirmaciones.error || 'Formato incorrecto'}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="3">Error: Los datos recibidos no son válidos.<br>${confirmaciones.error || 'Formato incorrecto'}</td></tr>`;
         document.getElementById('totalSi').textContent = 0;
         document.getElementById('totalNo').textContent = 0;
         return;
       }
       
       if (confirmaciones.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4">Aún no hay confirmaciones.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="3">Aún no hay confirmaciones.</td></tr>';
         document.getElementById('totalSi').textContent = 0;
         document.getElementById('totalNo').textContent = 0;
         return;
@@ -67,10 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const tdNombre = document.createElement('td');
         tdNombre.style.cssText = 'border: 1px solid #ddd; padding: 8px;';
         tdNombre.textContent = c.nombre || 'Sin nombre';
-        
-        const tdAsistentes = document.createElement('td');
-        tdAsistentes.style.cssText = 'border: 1px solid #ddd; padding: 8px;';
-        tdAsistentes.textContent = c.asistentes || 0;
         
         const tdConfirma = document.createElement('td');
         tdConfirma.style.cssText = 'border: 1px solid #ddd; padding: 8px;';
@@ -110,7 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         tr.appendChild(tdNombre);
-        tr.appendChild(tdAsistentes);
         tr.appendChild(tdConfirma);
         tr.appendChild(tdAcciones);
         
@@ -132,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
     .catch(function(err) {
       console.error('Error completo:', err);
       const tbody = document.querySelector('#tablaConfirmaciones tbody');
-      tbody.innerHTML = `<tr><td colspan="4">Error de conexión.<br>${err.message}<br><small>Verifica que el backend esté funcionando.</small></td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="3">Error de conexión.<br>${err.message}<br><small>Verifica que el backend esté funcionando.</small></td></tr>`;
       document.getElementById('totalSi').textContent = 0;
       document.getElementById('totalNo').textContent = 0;
     });
