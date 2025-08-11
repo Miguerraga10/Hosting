@@ -24,8 +24,8 @@
   <!-- Video principal -->
   <section id="intro">
     <iframe id="mainVideo" 
-            src="https://www.youtube.com/embed/MNllmXiIE0o?autoplay=0&mute=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&loop=0&start=0&disablekb=1&fs=0&playsinline=1&vq=hd2160&hd=1&quality=hd2160&title=0&byline=0&portrait=0&color=ffffff&autopause=0"
-            style="display:none; width: 100%; height: 100%; border-radius: 32px; box-shadow: 0 0 40px #c084fc; max-width: 420px; max-height: 80vh; aspect-ratio: 9/16; pointer-events: none;"
+            src="about:blank"
+            style="display:none; width: 100%; height: 100%; border-radius: 32px; box-shadow: 0 0 40px #c084fc; max-width: 420px; max-height: 80vh; aspect-ratio: 9/16; pointer-events: none; background-color: #000000;"
             frameborder="0" 
             allow="autoplay; encrypted-media; picture-in-picture"
             allowfullscreen>
@@ -39,8 +39,8 @@
   <!-- Secciones independientes, ocultas al inicio -->
   <section id="infoFiestaSection" class="seccion-box" style="display:none">
     <h2>✨ Celebramos los 15 años de Nicol ✨</h2>
-    <p><strong>Fecha:</strong> 26 de septiembre</p>
-    <p><strong>Hora:</strong> 6:00 pm</p>
+    <p><strong>Fecha:</strong> 26 de septiembre de 2025</p>
+    <p><strong>Hora:</strong> 7:00 pm</p>
     <p><strong>Lugar:</strong> San Jerónimo, Antioquia <button id="btnMapa" type="button" class="map-btn">Ubicación</button></p>
     <div id="mapaModal" class="mapa-modal" style="display:none;">
       <div class="mapa-modal-content">
@@ -48,16 +48,25 @@
         <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3964.4945396334006!2d-75.72784042500759!3d6.458851793532691!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMjcnMzEuOSJOIDc1wrA0MyczMS4wIlc!5e0!3m2!1sen!2sco!4v1751324760512!5m2!1sen!2sco" width="100%" height="350" style="border:0; border-radius:12px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </div>
-    <p><strong>Vestimenta:</strong> Formal</p>
+    <p><strong>Vestimenta:</strong> Traje formal, se reserva todas las tonalidades de azules para la quinceañera</p>
   </section>
+
+  <!-- Flecha separadora -->
+  <div class="flecha-separadora" style="display:none;" id="flecha1">
+    <img src="assets/Flecha.webp" alt="Continúa hacia abajo" />
+  </div>
 
   <section id="lluviaSobresSection" class="seccion-box" style="display:none">
     <h2>Lluvia de sobres</h2>
     <div class="sobre-contenido">
-      <img src="assets/Sobre.jpg" alt="Sobre para lluvia de sobres" class="sobre-imagen" />
-      <p>Tu presencia es el regalo más valioso que puedes darme. Con que estés ahí para celebrar conmigo es más que suficiente.</p>
+      <img src="assets/Sobre.png" alt="Sobre para lluvia de sobres" class="sobre-imagen" />
     </div>
   </section>
+
+  <!-- Flecha separadora -->
+  <div class="flecha-separadora" style="display:none;" id="flecha2">
+    <img src="assets/Flecha.webp" alt="Continúa hacia abajo" />
+  </div>
 
   <section id="timerSection" class="seccion-box" style="display:none">
     <div id="timerBox" class="figura-irregular">
@@ -66,6 +75,11 @@
       </div>
     </div>
   </section>
+
+  <!-- Flecha separadora -->
+  <div class="flecha-separadora" style="display:none;" id="flecha3">
+    <img src="assets/Flecha.webp" alt="Continúa hacia abajo" />
+  </div>
 
   <section id="fraseSection" class="seccion-box" style="display:none">
     <div class="frase-contenido">
@@ -82,18 +96,43 @@
     </div>
   </section>
 
+  <!-- Flecha separadora -->
+  <div class="flecha-separadora" style="display:none;" id="flecha4">
+    <img src="assets/Flecha.webp" alt="Continúa hacia abajo" />
+  </div>
+
   <section id="confirmarSection" class="seccion-box" style="display:none">
     <form id="formRSVP" class="rsvp-form" onsubmit="return false;">
       <h3>Confirma tu asistencia</h3>
-      <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
-      <input type="number" id="asistentes" name="asistentes" min="1" max="10" placeholder="N° de asistentes" required />
-      <div class="confirmacion-opcion">
-        <label><input type="radio" name="confirmado" value="true" required /> Asistiré</label>
-        <label><input type="radio" name="confirmado" value="false" required /> No asistiré</label>
+      
+      <!-- Primer asistente (principal) -->
+      <div class="asistente-item" data-index="0">
+        <input type="text" class="nombre-asistente" placeholder="Tu nombre" required />
+        <button type="button" class="btn-eliminar" onclick="eliminarAsistente(0)" style="display:none;">❌</button>
       </div>
-      <button type="submit">Enviar</button>
+      
+      <button type="button" id="btnAgregarAcompanante" class="btn-agregar">+ Agregar acompañante</button>
+      
+      <!-- Contenedor para acompañantes adicionales -->
+      <div id="acompanantesContainer"></div>
+      
+      <!-- Opciones de confirmación para todos -->
+      <div class="confirmacion-general">
+        <h4>Confirmación de asistencia:</h4>
+        <div class="confirmacion-opcion">
+          <label><input type="radio" name="confirmado_general" value="true" required /> Asistiré</label>
+          <label><input type="radio" name="confirmado_general" value="false" required /> No asistiré</label>
+        </div>
+      </div>
+      
+      <button type="submit" id="btnEnviar">Enviar confirmaciones</button>
     </form>
   </section>
+
+  <!-- Flecha separadora -->
+  <div class="flecha-separadora" style="display:none;" id="flecha5">
+    <img src="assets/Flecha.webp" alt="Continúa hacia abajo" />
+  </div>
 
   <section id="albumFotosSection" class="seccion-box album-fotos-box" style="display:none">
     <h2>¡Comparte tus fotos de la fiesta!</h2>
@@ -104,10 +143,9 @@
     <div class="footer-content">
       <p>Creado por <strong>@miguerraga10</strong></p>
       <p>Proyecto sin fines de lucro, solo para uso personal y familiar.</p>
-      <p>&copy; 2025 Nicol Franco - Invitación 15 años</p>
+      <p>&copy; 2025 Nicol Echeverri - Invitación 15 años</p>
     </div>
   </footer>
-  <div id="nieve"></div>
   <script src="rsvp-nuevo.js"></script>
   <script src="script.js"></script>
 </body>

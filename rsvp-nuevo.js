@@ -1,5 +1,78 @@
 // ===== NUEVA VERSIÓN SIMPLIFICADA DEL FORMULARIO RSVP =====
 
+// Variables globales para el manejo de asistentes
+let contadorAsistentes = 1;
+
+// Función para agregar un nuevo acompañante
+function agregarAcompanante() {
+  const container = document.getElementById('acompanantesContainer');
+  const nuevoAsistente = document.createElement('div');
+  nuevoAsistente.className = 'asistente-item';
+  nuevoAsistente.setAttribute('data-index', contadorAsistentes);
+  
+  nuevoAsistente.innerHTML = `
+    <input type="text" class="nombre-asistente" placeholder="Nombre del acompañante" required />
+    <button type="button" class="btn-eliminar" onclick="eliminarAsistente(${contadorAsistentes})">❌</button>
+  `;
+  
+  container.appendChild(nuevoAsistente);
+  contadorAsistentes++;
+}
+
+// Función para eliminar un asistente
+function eliminarAsistente(index) {
+  const asistente = document.querySelector(`[data-index="${index}"]`);
+  if (asistente && index !== 0) { // No permitir eliminar el primer asistente
+    asistente.remove();
+  }
+}
+
+// Función para recopilar datos de todos los asistentes
+function recopilarDatosAsistentes() {
+  // Obtener la confirmación general del formulario
+  const confirmacionGeneral = document.querySelector('input[name="confirmado_general"]:checked');
+  if (!confirmacionGeneral) {
+    alert('Por favor, confirma si asistirás o no.');
+    return [];
+  }
+  
+  const confirmado = confirmacionGeneral.value === 'true';
+  
+  // Buscar el asistente principal y todos los acompañantes
+  const asistentePrincipal = document.querySelector('[data-index="0"]');
+  const acompanantes = document.querySelectorAll('#acompanantesContainer .asistente-item');
+  
+  const datosAsistentes = [];
+  
+  // Procesar asistente principal
+  if (asistentePrincipal) {
+    const nombre = asistentePrincipal.querySelector('.nombre-asistente').value.trim();
+    
+    if (nombre) {
+      datosAsistentes.push({
+        nombre: nombre,
+        confirmado: confirmado,
+        esPrincipal: true
+      });
+    }
+  }
+  
+  // Procesar acompañantes
+  acompanantes.forEach((asistente) => {
+    const nombre = asistente.querySelector('.nombre-asistente').value.trim();
+    
+    if (nombre) {
+      datosAsistentes.push({
+        nombre: nombre,
+        confirmado: confirmado,
+        esPrincipal: false
+      });
+    }
+  });
+  
+  return datosAsistentes;
+}
+
 // Función para iniciar el video y la música
 function iniciarVideoYMusica() {
   const video = document.getElementById('mainVideo');
@@ -32,7 +105,48 @@ function iniciarVideoYMusica() {
   }
 }
 
-// Función para enviar al backend
+// Función para enviar múltiples asistentes al backend
+async function enviarMultiplesAsistentes(asistentes) {
+  console.log('🚀 ENVIANDO MÚLTIPLES ASISTENTES AL BACKEND:', asistentes);
+  
+  const resultados = [];
+  
+  for (const asistente of asistentes) {
+    try {
+      const response = await fetch('https://nicol15-backend.onrender.com/api/rsvp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nombre: asistente.nombre,
+          confirmado: asistente.confirmado,
+          asistentes: 1 // Cada registro es un asistente individual
+        })
+      });
+      
+      console.log(`📡 Status para ${asistente.nombre}:`, response.status, response.statusText);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`❌ Error del servidor para ${asistente.nombre}:`, errorText);
+        throw new Error(`Error ${response.status}: ${errorText}`);
+      }
+      
+      const resultado = await response.json();
+      console.log(`✅ Confirmación guardada para ${asistente.nombre}:`, resultado);
+      resultados.push({ nombre: asistente.nombre, exitoso: true, resultado });
+      
+    } catch (error) {
+      console.error(`❌ Error enviando datos de ${asistente.nombre}:`, error);
+      resultados.push({ nombre: asistente.nombre, exitoso: false, error: error.message });
+    }
+  }
+  
+  return resultados;
+}
+
+// Función para enviar al backend (mantener compatibilidad)
 async function enviarRSVP(datos) {
   console.log('🚀 ENVIANDO AL BACKEND:', datos);
   
@@ -138,12 +252,21 @@ document.addEventListener('DOMContentLoaded', function() {
     return;
   }
   
+  // CONFIGURAR BOTÓN AGREGAR ACOMPAÑANTE
+  const btnAgregarAcompanante = document.getElementById('btnAgregarAcompanante');
+  if (btnAgregarAcompanante) {
+    btnAgregarAcompanante.addEventListener('click', function() {
+      console.log('➕ Agregando acompañante');
+      agregarAcompanante();
+    });
+  }
+  
   // MANEJAR CLICK DEL BOTÓN
   botonEnviar.addEventListener('click', async function(evento) {
     evento.preventDefault();
     evento.stopPropagation();
     
-    console.log('🎯 BOTÓN CLICKEADO');
+    console.log('🎯 BOTÓN CLICKEADO - Nuevo sistema de asistentes');
     
     // Cambiar apariencia del botón
     botonEnviar.disabled = true;
@@ -151,62 +274,53 @@ document.addEventListener('DOMContentLoaded', function() {
     botonEnviar.style.backgroundColor = '#cccccc';
     
     try {
-      // OBTENER DATOS
-      const campoNombre = document.getElementById('nombre');
-      const campoAsistentes = document.getElementById('asistentes');
-      const radioConfirmado = document.querySelector('input[name="confirmado"]:checked');
+      // OBTENER DATOS DE TODOS LOS ASISTENTES
+      const asistentes = recopilarDatosAsistentes();
       
-      console.log('📝 Campos encontrados:', {
-        nombre: campoNombre,
-        asistentes: campoAsistentes,
-        confirmado: radioConfirmado
-      });
-      
-      const nombre = campoNombre?.value?.trim();
-      const asistentes = campoAsistentes?.value;
-      const confirmado = radioConfirmado?.value;
-      
-      console.log('📊 Valores capturados:', {
-        nombre: nombre,
-        asistentes: asistentes,
-        confirmado: confirmado
-      });
+      console.log('📊 Asistentes recopilados:', asistentes);
       
       // VALIDAR
-      if (!nombre) {
-        mostrarModal('Por favor ingresa tu nombre', 'error');
+      if (asistentes.length === 0) {
+        mostrarModal('Por favor ingresa al menos un nombre', 'error');
         return;
       }
       
-      if (!asistentes || asistentes < 1) {
-        mostrarModal('Por favor ingresa el número de asistentes', 'error');
+      // Verificar que todos tengan nombre
+      const sinNombre = asistentes.find(a => !a.nombre);
+      if (sinNombre) {
+        mostrarModal('Por favor completa todos los nombres', 'error');
         return;
       }
       
-      if (!confirmado) {
-        mostrarModal('Por favor selecciona si asistirás o no', 'error');
-        return;
+      console.log('� Enviando datos de asistentes:', asistentes);
+      
+      // ENVIAR CADA ASISTENTE INDIVIDUALMENTE
+      const resultados = await enviarMultiplesAsistentes(asistentes);
+      
+      // Verificar resultados
+      const exitosos = resultados.filter(r => r.exitoso);
+      const fallidos = resultados.filter(r => !r.exitoso);
+      
+      if (exitosos.length === asistentes.length) {
+        mostrarModal(`✅ Todas las confirmaciones fueron enviadas correctamente!\n\nAsistentes registrados: ${exitosos.map(r => r.nombre).join(', ')}`, 'exito');
+        
+        // Limpiar formulario
+        const asistentePrincipal = document.querySelector('[data-index="0"]');
+        if (asistentePrincipal) {
+          asistentePrincipal.querySelector('.nombre-asistente').value = '';
+          const radios = asistentePrincipal.querySelectorAll('input[type="radio"]');
+          radios.forEach(radio => radio.checked = false);
+        }
+        
+        // Limpiar acompañantes
+        document.getElementById('acompanantesContainer').innerHTML = '';
+        contadorAsistentes = 1;
+        
+      } else if (exitosos.length > 0) {
+        mostrarModal(`⚠️ Se enviaron ${exitosos.length} de ${asistentes.length} confirmaciones.\n\nExitosos: ${exitosos.map(r => r.nombre).join(', ')}\nFallidos: ${fallidos.map(r => r.nombre).join(', ')}`, 'parcial');
+      } else {
+        mostrarModal('❌ No se pudo enviar ninguna confirmación. Intenta de nuevo.', 'error');
       }
-      
-      // PREPARAR DATOS
-      const datosEnvio = {
-        nombre: nombre,
-        asistentes: parseInt(asistentes),
-        confirmado: confirmado === 'true',
-        mensaje: ''
-      };
-      
-      console.log('📦 Datos preparados para envío:', datosEnvio);
-      
-      // ENVIAR
-      await enviarRSVP(datosEnvio);
-      
-      // ÉXITO
-      const tipoConfirmacion = confirmado === 'true' ? 'asistencia' : 'no asistencia';
-      mostrarModal(`¡Gracias ${nombre}! Tu ${tipoConfirmacion} ha sido confirmada. ✨`);
-      
-      // Limpiar formulario
-      formulario.reset();
       
     } catch (error) {
       console.error('💥 ERROR EN ENVÍO:', error);
@@ -215,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } finally {
       // Restaurar botón
       botonEnviar.disabled = false;
-      botonEnviar.textContent = 'Enviar';
+      botonEnviar.textContent = 'Enviar confirmaciones';
       botonEnviar.style.backgroundColor = '';
     }
   });
@@ -230,21 +344,11 @@ document.addEventListener('DOMContentLoaded', function() {
   console.log('✅ Formulario RSVP configurado correctamente');
 });
 
-// ===== FUNCIONES ADICIONALES =====
+// Funciones globales para el HTML
+window.agregarAcompanante = agregarAcompanante;
+window.eliminarAsistente = eliminarAsistente;
 
-// Efecto de partículas mágicas
-function crearParticulas() {
-  const container = document.createElement('div');
-  container.id = 'particulas';
-  document.body.appendChild(container);
-  for (let i = 0; i < 40; i++) {
-    const p = document.createElement('div');
-    p.className = 'particula';
-    p.style.left = Math.random() * 100 + 'vw';
-    p.style.animationDuration = (2 + Math.random() * 3) + 's';
-    container.appendChild(p);
-  }
-}
+// ===== FUNCIONES ADICIONALES =====
 
 // Transición tipo libro
 function siguientePagina() {
@@ -303,9 +407,6 @@ function mostrarSlides() {
 // Configurar música y otros elementos cuando se carga la página
 document.addEventListener('DOMContentLoaded', function() {
   console.log('🎵 Configurando elementos adicionales');
-  
-  // Crear partículas
-  crearParticulas();
   
   // Configurar música de fondo
   const music = document.getElementById('backgroundMusic');

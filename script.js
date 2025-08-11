@@ -38,17 +38,17 @@ window.addEventListener('DOMContentLoaded', function() {
         }
       }
       
-      // Mostrar el iframe y ocultar el botón
+      // Mostrar el iframe directamente sin overlay
       iframe.style.display = 'block';
       playButton.style.display = 'none';
       
-      // Cambiar src para iniciar autoplay del video
-      iframe.src = 'https://www.youtube.com/embed/MNllmXiIE0o?autoplay=1&mute=0&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&loop=0&start=0&disablekb=1&fs=0&playsinline=1&vq=hd2160&hd=1&quality=hd2160&fmt=22&title=0&byline=0&portrait=0&color=ffffff&autopause=0';
+      // Cargar el video con autoplay inmediatamente
+      iframe.src = 'https://www.youtube.com/embed/l87bFjHsdyM?autoplay=1&mute=0&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&loop=0&start=0&disablekb=1&fs=0&playsinline=1&vq=hd2160&hd=1&quality=hd2160&fmt=22&title=0&byline=0&portrait=0&color=000000&autopause=0&cc_load_policy=0&hl=es&origin=https%3A%2F%2Fwww.example.com&end_screen_info=0&annotation_id=0&theme=dark&autohide=1';
       
-      // Video completo: 1 minuto 14 segundos = 74 segundos + margen
+      // Video completo: YouTube Short (aproximadamente 60 segundos)
       setTimeout(() => {
         showInfo();
-      }, 76000);
+      }, 60000);
     });
   }
 });
@@ -145,12 +145,28 @@ function showInfo() {
   const confirmarSection = document.getElementById('confirmarSection');
   const albumFotos = document.getElementById('albumFotosSection');
   
+  // Obtener todas las flechas separadoras
+  const flecha1 = document.getElementById('flecha1');
+  const flecha2 = document.getElementById('flecha2');
+  const flecha3 = document.getElementById('flecha3');
+  const flecha4 = document.getElementById('flecha4');
+  const flecha5 = document.getElementById('flecha5');
+  
   if (infoFiesta && lluviaSobres && timerSection && fraseSection && confirmarSection && albumFotos) {
     // Mostrar todas las secciones inmediatamente sin transición
     [infoFiesta, lluviaSobres, timerSection, fraseSection, confirmarSection, albumFotos].forEach(sec => {
       sec.style.display = 'block';
       sec.style.opacity = '1';
       sec.style.transition = 'none'; // Sin transición
+    });
+    
+    // Mostrar todas las flechas separadoras
+    [flecha1, flecha2, flecha3, flecha4, flecha5].forEach(flecha => {
+      if (flecha) {
+        flecha.style.display = 'flex';
+        flecha.style.opacity = '1';
+        flecha.style.transition = 'none';
+      }
     });
   }
   
@@ -175,7 +191,7 @@ function iniciarTemporizador() {
   const timerSpan = document.getElementById('timer');
   function updateTimer() {
     const ahora = new Date();
-    const evento = new Date(2025, 8, 26, 18, 0, 0); // 26 septiembre 2025 18:00
+    const evento = new Date(2025, 8, 26, 19, 0, 0); // 26 septiembre 2025 19:00
     let diff = evento - ahora;
     if (diff < 0) {
       timerSpan.textContent = '¡Ya comenzó la fiesta!';
